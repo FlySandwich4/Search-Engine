@@ -11,7 +11,7 @@ import Tokenizer
 from PostingClass import Posting
 global total_doc
 total_doc = 0
-
+import sys
 
 print("success import")
 
@@ -50,6 +50,7 @@ def BuildIndex(DocSet):
         data = json.loads(open(eachFile).read())
         
         sp = BeautifulSoup(data["content"], "lxml")
+
         f = sp.get_text()
         Lst = Tokenizer.READ(f)
         #d = Tokenizer.Count(Lst)
@@ -74,23 +75,24 @@ def BuildIndex(DocSet):
                 #i
                 #FileDic {token  : d[1] dic[token][1].append(i)}
         
-        for token, tokenPostings in Hash_Table.items():
-            TotalOccurOfThisToken = len(tokenPostings)
-            for eachPosting in tokenPostings:
-                eachPosting.tfidf = countTFIDF(eachPosting.Tokenfre, eachPosting.WordsInDocid, total_doc, TotalOccurOfThisToken)
+        # for token, tokenPostings in Hash_Table.items():
+        #     TotalOccurOfThisToken = len(tokenPostings)
+        #     for eachPosting in tokenPostings:
+        #         eachPosting.tfidf = countTFIDF(eachPosting.Tokenfre, eachPosting.WordsInDocid, total_doc, TotalOccurOfThisToken)
 
-        for k,v in Hash_Table.items():
-            print("={}".format(k))
-            for each in v:
-                print(countTF(each.Tokenfre, each.WordsInDocid))
-                #print("    Word fre in total", each.Tokenfre)
-                #print("    Total Words", each.WordsInDocid)
-                print("    DocID",each.docid)
+        # for k,v in Hash_Table.items():
+        #     print("={}".format(k))
+        #     for each in v:
+        #         print(countTF(each.Tokenfre, each.WordsInDocid))
+        #         #print("    Word fre in total", each.Tokenfre)
+        #         #print("    Total Words", each.WordsInDocid)
+        #         print("    DocID",each.docid)
         
-        #Tokenizer.Printer(d)
-                #print("here executed")
-        #(data["content"])
-        #
+
+    print("total_doc", total_doc)
+    print("total unique words", len(Hash_Table))
+    print("The size of the disk", sys.getsizeof(Hash_Table), "bytes")
+
 
 
 
