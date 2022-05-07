@@ -1,3 +1,13 @@
+
+#/==========================================\
+#|This hw is done by a group with 4 members:|
+#|   Name        ;NetID      ;StudentID     |
+#|   Yue Wu      ;wu57       ;16762451      |
+#|   Hao Ying    ;hying5     ;49709238      |
+#|   Sicheng Liu ;sichel14   ;59658402      |
+#|   Xin Zhou    ;xinz36     ;83222896      |
+#\==========================================/
+
 import math
 import urllib.request
 from pathlib import Path
@@ -14,7 +24,6 @@ total_doc = 0
 import sys
 
 print("success import")
-
 
 
 def findAllUrl(path):
@@ -91,7 +100,7 @@ def BuildIndex(DocSet):
 
     print("total_doc", total_doc)
     print("total unique words", len(Hash_Table))
-    print("The size of the disk", sys.getsizeof(Hash_Table), "bytes")
+    print("The size of the disk", sys.getsizeof(Hash_Table)/1024, "kb (",sys.getsizeof(Hash_Table),"bytes )")
 
 
 
@@ -112,7 +121,7 @@ def countTF(CountOfT, NumOfWords):
 
 
 if __name__ =="__main__":
-    BuildIndex(findAllUrl('ANALYST/'))
+    BuildIndex(findAllUrl('DEV/'))
 
     
 

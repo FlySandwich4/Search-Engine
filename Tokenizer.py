@@ -1,5 +1,16 @@
+#/==========================================\
+#|This hw is done by a group with 4 members:|
+#|   Name        ;NetID      ;StudentID     |
+#|   Yue Wu      ;wu57       ;16762451      |
+#|   Hao Ying    ;hying5     ;49709238      |
+#|   Sicheng Liu ;sichel14   ;59658402      |
+#|   Xin Zhou    ;xinz36     ;83222896      |
+#\==========================================/
+
 import re
 import sys
+
+
 
 def READ(file): # O(N)
     Tokens = [] # O(1)
