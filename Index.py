@@ -57,7 +57,7 @@ def BuildIndex(DocSet):
     for eachFile in DocSet:
         DocIndex += 1
         data = json.loads(open(eachFile).read())
-        
+
         sp = BeautifulSoup(data["content"], "lxml")
 
         f = sp.get_text()

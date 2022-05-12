@@ -11,11 +11,11 @@ import re
 import sys
 
 
-
 def READ(file): # O(N)
-    Tokens = [] # O(1)
-
-
+    Tokens = {} # O(1) 't
+    Stop = {"you", "s", "re", 'whom', "she", 'off', "they", "where", "why", "we", 'are', 'any', 'out', "who", 'being', 'than', 'further', 'more', 'doing', 'so', 'was', 'would', 'yourself', 'to', 'herself', 'by', 'it', 'why', 'do', 'other', 'could', 'only', 'has', 'not', "how", "what", 'my', 'after', 'yourselves', "he", 'into', "when", 'then', 'when', 'few', 'above', 'in', 'through', "there", 'be', 'against', 'which', 'the', "we", 'theirs', 'at', 'some', "they", "ll", 'itself', 'ought', 'from', 'those', 'your', 'between', 'each', 'its', 'if', 'own', 'or', 'during', "it", 'him', 'am', "hadn", 'what', 'until', "doesn", 'while', 'how', 'and', 'cannot', 'them', "you", "ve", 'but', 'yours', 'were', 'did', "she", 'because', 'such', 'been', "hasn", "haven", "we", 'below', 'themselves', "wasn", 'we', 'who', 'again', 'their', 'most', 'his', "couldn", 'himself', 'under', 'these', 'here', "shouldn", 'ourselves', 'should', 'they', 'is', "won", 'her', "can", "they", 'hers', "didn", "shan", 'all', 'nor', 'i', 'does', "you", "let", 'having', 'ours', 'no', 'over', 'about', 'our', 'very', 'before', 'there', 'had', 'an', 'for', 'that', 'this', 'he', 'myself', 'as', 'both', 'same', "wouldn", 'once', 'she', "they", "don", "she", "isn", 'on', "he", 'where', 'with', "i", "that", "he", 'have', "weren", 'down', 'a', 'me', 'you', "we", "mustn", "here", "aren", 'up', 'too', "you"}
+    
+    counter = 0
     a = file.rstrip('\n') #O(1) since much smaller than A, since one line has multiple words
     elements = re.split("\W+", a) #O(N) have to allocate every words in the file into a list, so linear
     for j in elements: #O(N) already go through all words in the file, O(N)
@@ -24,9 +24,15 @@ def READ(file): # O(N)
             # to exclude the situation that 're, 't... However, if the 'xx is longer than 2, it probably means sth
             # so in that situation, I would keep that
             # O(N) since every words has to be checked
-            if len(j) > 2: # O(N) since nearly every words has to be checked
+            if len(j) > 1 and j not in Stop: # O(N) since nearly every words has to be checked  
+                if j not in Tokens: # if this word is not in dictionary, then we add this word into the dictionary
+                    Tokens[j] = []
+                Tokens[j].append(counter) # add the new position into the list of position for this token
+
                 j = j.lower() # O(N) since nearly every words has to be lowered
                 Tokens.append(j) # O(N) since nearly every words has to be appended
+                counter += 1
+
 
     return Tokens
 
