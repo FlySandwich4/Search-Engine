@@ -108,13 +108,13 @@ def BuildIndex(DocSet):
     #print("total_doc", total_doc)
     #print("total unique words", len(Hash_Table))
     #print("The size of the disk", sys.getsizeof(Hash_Table)/1024, "kb (",sys.getsizeof(Hash_Table),"bytes )")
-    for token in sorted(Hash_Table.keys()):
-        i = 0
-        print(token)
-        for pos in Hash_Table[token]:
-            print("    Postings{i}: {d}, {p}".format(t=token, i=i, d = pos.docid, p = pos.Positions))
-            i += 1
-        print("-------------------------------------------------------------")
+    
+    with open("AllWords.json", "w+") as F:
+        
+        for token in sorted(Hash_Table.keys()):
+            json_obj = json.dumps({token: [[i.docid, i.fields] for i in Hash_Table[token]]}, indent=4)
+            F.write(json_obj)
+
 
 
 
