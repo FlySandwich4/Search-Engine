@@ -8,6 +8,7 @@
 #|   Xin Zhou    ;xinz36     ;83222896      |
 #\==========================================/
 
+from asyncore import write
 import math
 import urllib.request
 from pathlib import Path
@@ -22,6 +23,7 @@ from PostingClass import Posting
 global total_doc
 total_doc = 0
 import sys
+import time
 
 print("success import")
 
@@ -46,15 +48,15 @@ def findAllUrl(path):
     # open all files 
     total_doc = len(j_files)
     print("This is total {}".format(total_doc))
-    return j_files
+    return list(j_files)
         
 
 #return : {token: posting}
-def BuildIndex(DocSet):
+def BuildSmallIndex(DocList):
     print("build function's toal {}".format(total_doc))
     Hash_Table = {}
     DocIndex = 0
-    for eachFile in DocSet:
+    for eachFile in DocList:
         DocIndex += 1
         data = json.loads(open(eachFile).read())
 
@@ -91,30 +93,48 @@ def BuildIndex(DocSet):
                 #i
                 #FileDic {token  : d[1] dic[token][1].append(i)}
         
-        # for token, tokenPostings in Hash_Table.items():
-        #     TotalOccurOfThisToken = len(tokenPostings)
-        #     for eachPosting in tokenPostings:
-        #         eachPosting.tfidf = countTFIDF(eachPosting.Tokenfre, eachPosting.WordsInDocid, total_doc, TotalOccurOfThisToken)
 
-        # for k,v in Hash_Table.items():
-        #     print("={}".format(k))
-        #     for each in v:
-        #         print(countTF(each.Tokenfre, each.WordsInDocid))
-        #         #print("    Word fre in total", each.Tokenfre)
-        #         #print("    Total Words", each.WordsInDocid)
-        #         print("    DocID",each.docid)
+        #checkTF = time.time()
+        for token, tokenPostings in Hash_Table.items():
+            TotalOccurOfThisToken = len(tokenPostings)
+            for eachPosting in tokenPostings:
+                eachPosting.tfidf = countTFIDF(eachPosting.Tokenfre, eachPosting.WordsInDocid, total_doc, TotalOccurOfThisToken)
+        #checkTF = time.time()-checkTF
+        #print(checkTF)
+
+        # with open("AllWords.json", "w+") as F:
+        #     for token in sorted(Hash_Table.keys()):
+        #         json_obj = json.dumps({token: i.__dict__ for i in Hash_Table[token]}, indent=4)
+        #         F.write(json_obj)
+
+    return Hash_Table
+
+
         
-
-    #print("total_doc", total_doc)
-    #print("total unique words", len(Hash_Table))
-    #print("The size of the disk", sys.getsizeof(Hash_Table)/1024, "kb (",sys.getsizeof(Hash_Table),"bytes )")
+def BuildIndex(D):
+    Hash_Table = {}
+    n = 0
+    B = []
     
-    with open("AllWords.json", "w+") as F:
-        
-        for token in sorted(Hash_Table.keys()):
-            json_obj = json.dumps({token: [[i.docid, i.tfidf, i.fields, i.Tokenfre, i.WordsInDocid, i.Positions] for i in Hash_Table[token]]}, indent=4)
-            F.write(json_obj)
+    #Breaking Large D into small B List
+    theI = 0
+    while D != []:
+        for i in range(500):
+            try:
+                B.append(D.pop())
+            except:
+                break
 
+        Hash_Table = BuildSmallIndex(B)
+
+        with open("AllWords{theI}.json".format(theI = theI), "w+") as F:
+            for token in sorted(Hash_Table.keys()):
+                json_obj = json.dumps({token: i.__dict__ for i in Hash_Table[token]}, indent=4)
+                F.write(json_obj)
+        
+        theI += 1
+        Hash_Table = {}
+        B = []
 
 
 
