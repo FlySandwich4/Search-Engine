@@ -10,6 +10,7 @@
 
 from asyncore import write
 import math
+from operator import iand
 from re import A
 import urllib.request
 from pathlib import Path
@@ -23,6 +24,8 @@ import Tokenizer
 from PostingClass import Posting
 global total_doc
 total_doc = 0
+global jsonNums
+jsonNums = 0
 import sys
 import time
 
@@ -93,6 +96,7 @@ def BuildSmallIndex(DocList,DocIndex):
 
         
 def BuildIndex(D):
+    global jsonNums
     Hash_Table = {}
     n = 0
     B = []
@@ -109,46 +113,75 @@ def BuildIndex(D):
         Hash_Table = BuildSmallIndex(B,n)
 
         with open("AllWords{theI}.json".format(theI = theI), "w+") as F:
-            for token in sorted(Hash_Table.keys()):
-                json_obj = json.dumps({token: [i.__dict__ for i in Hash_Table[token]]}, indent=4)
-                F.write(json_obj)
-        
+            #for token in sorted(Hash_Table.keys()):
+           #     json_obj = json.dumps({token: [i.__dict__ for i in Hash_Table[token]]}, indent=4)
+                
+
+            json_obj = json.dumps({token: [i.__dict__ for i in Hash_Table[token]] for token in sorted(Hash_Table.keys())}, indent=4 )
+            F.write(json_obj)
+
         theI += 1
         Hash_Table = {}
         B = []
         n += 500
+        jsonNums += 1
         
 
 
 def Merge(file_A, file_B):
+
     #initialize
     fA = open(file_A)
     fB = open(file_B)
     Table_A = json.load(fA)
     Table_B = json.load(fB)
+    KeysA = sorted(Table_A.keys())
+    KeysB = sorted(Table_B.keys())
     indexA = 0
     indexB = 0
 
+    """
+    apple, banana,lsc, sb, zx
+    [p1, p2, p3] -< p4
 
-    while not (Table_A != {} ):
-        A[0] <> B[0]
-        
-        if A[ia] < B[ib]:
-            read A
-            indexA ++
-            add to one json
-        
-        if B[indexB] > A[indexA]
-            indexB ++
+    apple, lsc, yh
+    [p4, p5, p6]
 
-    AllWords is a json (TOTAL)
+    total Json file -> parameter 1
+    each file json (in order) -> parameter 2
 
-    0,1,2,3
-    for i in 1230
-        merge(allwords, allwords (i))
+    put into merge: only change total json file
+    """
 
+    while not (indexA == len(KeysA) and indexB == len(KeysB)):
+        try:
+            if KeysA[indexA] < KeysB[indexB]:
+                indexA += 1
+            
+            elif KeysA[indexA] == KeysB[indexB]:
+                Table_A[KeysA[indexA]] += Table_B[KeysB[indexB]]
+                indexA += 1
+                indexB += 1
+
+            elif KeysB[indexB] < KeysA[indexA]:
+                Table_A[KeysB[indexB]] = Table_B[KeysB[indexB]]
+                indexB += 1
+        except:
+            if indexA == len(KeysA):
+                Table_A[KeysB[indexB]] = Table_B[KeysB[indexB]]
+                indexB += 1
+            if indexB == len(KeysB):
+                break
 
     fA.close()
+    fA = open(file_A, "w+")
+                          
+    json_obj = json.dumps({token: [i for i in Table_A[token]] for token in sorted(Table_A.keys())}, indent=4)
+    fA.write(json_obj)
+
+    fA.close()
+
+    
     fB.close()
 
 
@@ -168,8 +201,9 @@ def countTF(CountOfT, NumOfWords):
 
 
 if __name__ =="__main__":
-    BuildIndex(findAllUrl('ANALYST/'))
-
+    BuildIndex(findAllUrl('DEV/'))
+    for i in range(1,jsonNums):
+        Merge("AllWords0.json", "AllWords{i}.json".format(i=i))
     
 
 
