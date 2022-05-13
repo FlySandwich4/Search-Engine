@@ -60,29 +60,32 @@ def BuildIndex(DocSet):
 
         sp = BeautifulSoup(data["content"], "lxml")
 
-        f = sp.get_text()
-        Dict = Tokenizer.READ(f) # A dictionary containing all tokens' corresponding positions
-        #d = Tokenizer.Count(Lst)
+        WholeTextInEachFile = sp.get_text()
+        # A dictionary containing all tokens' corresponding positions
+        Dict = Tokenizer.READ(WholeTextInEachFile) 
+
         Len = sum(len(i) for i in Dict.values()) # length of 
-        lst = ['p', 'h3', 'h2', 'h1', 'title', 'head']
-        #FileDic= {}
-        for i in lst:
-            for j in sp.find_all(i):
-                d = Tokenizer.Count(Tokenizer.READ(j.text)) #d[1]
-                #print(i, d)
+
+        # p: paragraph  h#: small titles 
+        regions = ['p', 'h3', 'h2', 'h1', 'title', 'head']
+        for regionInText in regions:
+
+            for TextInEachRegion in sp.find_all(regionInText):
+                d = Tokenizer.Count(Tokenizer.READ(TextInEachRegion.text)) 
+
                 for k in d:
                     if k in Hash_Table:
                         if not Hash_Table[k][-1].docid == DocIndex:
-                            Hash_Table[k].append(Posting(DocIndex, 0, i, d[k], Len))
-                            if i == 'p' and k in Dict:
+                            Hash_Table[k].append(Posting(DocIndex, 0, regionInText, d[k], Len))
+                            if regionInText == 'p' and k in Dict:
                                 Hash_Table[k][-1].Positions = Dict[k]
                         else:
-                            Hash_Table[k][-1].add_field(i)
+                            Hash_Table[k][-1].add_field(regionInText)
                             Hash_Table[k][-1].Tokenfre += d[k]
                     else:
                         Hash_Table[k] = []
-                        Hash_Table[k].append(Posting(DocIndex, 0, i, d[k], Len))
-                        if i == 'p' and k in Dict:
+                        Hash_Table[k].append(Posting(DocIndex, 0, regionInText, d[k], Len))
+                        if regionInText == 'p' and k in Dict:
                             Hash_Table[k][-1].Positions = Dict[k]
 
                 #i
@@ -105,9 +108,13 @@ def BuildIndex(DocSet):
     #print("total_doc", total_doc)
     #print("total unique words", len(Hash_Table))
     #print("The size of the disk", sys.getsizeof(Hash_Table)/1024, "kb (",sys.getsizeof(Hash_Table),"bytes )")
-    for token in Hash_Table:
+    for token in sorted(Hash_Table.keys()):
+        i = 0
+        print(token)
         for pos in Hash_Table[token]:
-            print(pos.Positions)
+            print("    Postings{i}: {d}, {p}".format(t=token, i=i, d = pos.docid, p = pos.Positions))
+            i += 1
+        print("-------------------------------------------------------------")
 
 
 
@@ -128,7 +135,7 @@ def countTF(CountOfT, NumOfWords):
 
 
 if __name__ =="__main__":
-    BuildIndex(findAllUrl('DEV/'))
+    BuildIndex(findAllUrl('ANALYST/'))
 
     
 
