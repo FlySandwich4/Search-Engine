@@ -61,9 +61,9 @@ def BuildIndex(DocSet):
         sp = BeautifulSoup(data["content"], "lxml")
 
         f = sp.get_text()
-        Lst = Tokenizer.READ(f)
+        Dict = Tokenizer.READ(f) # A dictionary containing all tokens' corresponding positions
         #d = Tokenizer.Count(Lst)
-        Len = len(Lst)
+        Len = sum(len(i) for i in Dict.values()) # length of 
         lst = ['p', 'h3', 'h2', 'h1', 'title', 'head']
         #FileDic= {}
         for i in lst:
@@ -74,12 +74,16 @@ def BuildIndex(DocSet):
                     if k in Hash_Table:
                         if not Hash_Table[k][-1].docid == DocIndex:
                             Hash_Table[k].append(Posting(DocIndex, 0, i, d[k], Len))
+                            if i == 'p' and k in Dict:
+                                Hash_Table[k][-1].Positions = Dict[k]
                         else:
                             Hash_Table[k][-1].add_field(i)
                             Hash_Table[k][-1].Tokenfre += d[k]
                     else:
                         Hash_Table[k] = []
                         Hash_Table[k].append(Posting(DocIndex, 0, i, d[k], Len))
+                        if i == 'p' and k in Dict:
+                            Hash_Table[k][-1].Positions = Dict[k]
 
                 #i
                 #FileDic {token  : d[1] dic[token][1].append(i)}
@@ -98,9 +102,12 @@ def BuildIndex(DocSet):
         #         print("    DocID",each.docid)
         
 
-    print("total_doc", total_doc)
-    print("total unique words", len(Hash_Table))
-    print("The size of the disk", sys.getsizeof(Hash_Table)/1024, "kb (",sys.getsizeof(Hash_Table),"bytes )")
+    #print("total_doc", total_doc)
+    #print("total unique words", len(Hash_Table))
+    #print("The size of the disk", sys.getsizeof(Hash_Table)/1024, "kb (",sys.getsizeof(Hash_Table),"bytes )")
+    for token in Hash_Table:
+        for pos in Hash_Table[token]:
+            print(pos.Positions)
 
 
 

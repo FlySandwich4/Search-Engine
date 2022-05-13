@@ -21,6 +21,7 @@ class Posting:
 
         #the total words in this docid
         self.WordsInDocid = WordsInDocid
+        self.Positions = []
     
     def add_field(self, Str):
         self.fields.append(Str)
