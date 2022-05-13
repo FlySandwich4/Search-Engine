@@ -10,6 +10,7 @@
 
 from asyncore import write
 import math
+from re import A
 import urllib.request
 from pathlib import Path
 # import re
@@ -29,15 +30,6 @@ print("success import")
 
 
 def findAllUrl(path):
-    # entries = Path(path)
-    # for entry in entries.iterdir():
-    #     print(entry)
-    #     if re.match(r"[0-9a-zA-Z_]*" ,str(entry)):
-    #         print("  this is path+entry {}".format(str(path) + str(entry)))
-    #         findAllUrl(path+entry)
-    #     elif re.match(r"[0-9a-zA-Z_]*\.json",str(entry)):
-    #         print("  Match Jason")
-
     j_files = set()
     # add all paths of files end with ".json" into j_files 
     for r, d, files in os.walk(path):
@@ -52,10 +44,10 @@ def findAllUrl(path):
         
 
 #return : {token: posting}
-def BuildSmallIndex(DocList):
+def BuildSmallIndex(DocList,DocIndex):
     print("build function's toal {}".format(total_doc))
     Hash_Table = {}
-    DocIndex = 0
+    
     for eachFile in DocList:
         DocIndex += 1
         data = json.loads(open(eachFile).read())
@@ -90,22 +82,11 @@ def BuildSmallIndex(DocList):
                         if regionInText == 'p' and k in Dict:
                             Hash_Table[k][-1].Positions = Dict[k]
 
-                #i
-                #FileDic {token  : d[1] dic[token][1].append(i)}
-        
 
-        #checkTF = time.time()
         for token, tokenPostings in Hash_Table.items():
             TotalOccurOfThisToken = len(tokenPostings)
             for eachPosting in tokenPostings:
                 eachPosting.tfidf = countTFIDF(eachPosting.Tokenfre, eachPosting.WordsInDocid, total_doc, TotalOccurOfThisToken)
-        #checkTF = time.time()-checkTF
-        #print(checkTF)
-
-        # with open("AllWords.json", "w+") as F:
-        #     for token in sorted(Hash_Table.keys()):
-        #         json_obj = json.dumps({token: i.__dict__ for i in Hash_Table[token]}, indent=4)
-        #         F.write(json_obj)
 
     return Hash_Table
 
@@ -125,18 +106,50 @@ def BuildIndex(D):
             except:
                 break
 
-        Hash_Table = BuildSmallIndex(B)
+        Hash_Table = BuildSmallIndex(B,n)
 
         with open("AllWords{theI}.json".format(theI = theI), "w+") as F:
             for token in sorted(Hash_Table.keys()):
-                json_obj = json.dumps({token: i.__dict__ for i in Hash_Table[token]}, indent=4)
+                json_obj = json.dumps({token: [i.__dict__ for i in Hash_Table[token]]}, indent=4)
                 F.write(json_obj)
         
         theI += 1
         Hash_Table = {}
         B = []
+        n += 500
+        
 
 
+def Merge(file_A, file_B):
+    #initialize
+    fA = open(file_A)
+    fB = open(file_B)
+    Table_A = json.load(fA)
+    Table_B = json.load(fB)
+    indexA = 0
+    indexB = 0
+
+
+    while not (Table_A != {} ):
+        A[0] <> B[0]
+        
+        if A[ia] < B[ib]:
+            read A
+            indexA ++
+            add to one json
+        
+        if B[indexB] > A[indexA]
+            indexB ++
+
+    AllWords is a json (TOTAL)
+
+    0,1,2,3
+    for i in 1230
+        merge(allwords, allwords (i))
+
+
+    fA.close()
+    fB.close()
 
 
 #CountOfT: count of T in This Doc
