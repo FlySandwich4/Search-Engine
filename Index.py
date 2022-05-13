@@ -112,7 +112,7 @@ def BuildIndex(DocSet):
     with open("AllWords.json", "w+") as F:
         
         for token in sorted(Hash_Table.keys()):
-            json_obj = json.dumps({token: [[i.docid, i.fields] for i in Hash_Table[token]]}, indent=4)
+            json_obj = json.dumps({token: [[i.docid, i.tfidf, i.fields, i.Tokenfre, i.WordsInDocid, i.Positions] for i in Hash_Table[token]]}, indent=4)
             F.write(json_obj)
 
 
