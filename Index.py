@@ -48,7 +48,7 @@ def findAllUrl(path):
 
 #return : {token: posting}
 def BuildSmallIndex(DocList,DocIndex):
-    print("build function's toal {}".format(total_doc))
+    #print("build function's toal {}".format(total_doc))
     Hash_Table = {}
     
     for eachFile in DocList:
@@ -113,6 +113,7 @@ def BuildIndex(D):
         Hash_Table = BuildSmallIndex(B,n)
 
         with open("AllWords{theI}.json".format(theI = theI), "w+") as F:
+            print("Building Json File:", "AllWords{theI}.json".format(theI = theI))
             #for token in sorted(Hash_Table.keys()):
            #     json_obj = json.dumps({token: [i.__dict__ for i in Hash_Table[token]]}, indent=4)
                 
@@ -129,7 +130,7 @@ def BuildIndex(D):
 
 
 def Merge(file_A, file_B):
-
+    print(f"Merging {file_A} and {file_B}")
     #initialize
     fA = open(file_A)
     fB = open(file_B)
@@ -202,8 +203,11 @@ def countTF(CountOfT, NumOfWords):
 
 if __name__ =="__main__":
     BuildIndex(findAllUrl('DEV/'))
+
+    print("\nStart Merging\n===========================================")
     for i in range(1,jsonNums):
         Merge("AllWords0.json", "AllWords{i}.json".format(i=i))
+        os.remove("AllWords{i}.json".format(i=i))
     
 
 
