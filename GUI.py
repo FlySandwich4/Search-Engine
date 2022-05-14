@@ -1,9 +1,12 @@
+from gc import callbacks
 import tkinter as tk
 from tkinter import Y, ttk
 from tkinter import font
 from typing import Type
 import Query
 import json
+
+
 
 class EmptyInputException(Exception):
     pass
@@ -20,6 +23,8 @@ class myWindows:
         self.height = 600
         self.win_w = self.Windows.winfo_screenwidth()
         self.win_h = self.Windows.winfo_screenheight()
+        self.bg = "#e4f6f7"
+        self.Windows.configure(bg=self.bg)
         
             
 
@@ -30,7 +35,7 @@ class myWindows:
 
         
         #Entry for query
-        self.Entry_Query = tk.Entry(self.Windows, text= "Search What You Want")
+        self.Entry_Query = tk.Entry(self.Windows)
         self.Entry_Query.place(x=self.width/2-300,y=self.height/4 - 60,width=500,height=30)
 
         #Text for Google
@@ -38,21 +43,21 @@ class myWindows:
 
         #Label for Google title
         
-        self.Show_Win_Label = tk.Label(self.Windows, text="D",fg="#f57a00")
+        self.Show_Win_Label = tk.Label(self.Windows, text="D",fg="#f57a00",bg=self.bg)
         self.Show_Win_Label.place(x=self.width/2-72,y=0,width=45)
         self.Show_Win_Label.configure(font=("Times New Roman", 60, "italic",font.BOLD))
-        self.Show_Win_Label = tk.Label(self.Windows, text="OOGLE",fg="#26b5e0")
+        self.Show_Win_Label = tk.Label(self.Windows, text="OOGLE",fg="#26b5e0",bg=self.bg)
         self.Show_Win_Label.place(x=self.width/2-28.5,y=27,width=100)
         self.Show_Win_Label.configure(font=("Times New Roman", 30, "italic"))
         
 
 
-        self.Show_Win_Label = tk.Label(self.Windows, text="THE DOG, THE GOOGLE, THE DOOGLE",fg="#0d9aba")
+        self.Show_Win_Label = tk.Label(self.Windows, text="THE DOG, THE GOOGLE, THE DOOGLE",fg="#0d9aba",bg=self.bg)
         self.Show_Win_Label.place(x=self.width/2-150,y=63,width=300)
         self.Show_Win_Label.configure(font=("Times New Roman", 10, "italic",font.BOLD))
 
         #Label for choosing how many values
-        self.Label_howManyWebs = tk.Label(self.Windows, text="How many Webs to display?")
+        self.Label_howManyWebs = tk.Label(self.Windows, text="How many Webs to display?",bg=self.bg)
         self.Label_howManyWebs.place(x=self.width/2-300,y=self.height/4-25)
         self.Label_howManyWebs.configure(font=("Times New Roman", 15, "italic"))
 
@@ -82,15 +87,11 @@ class myWindows:
         self.scrollbarX.config(command=self.myList.xview)
         
     
-
-
-
-
-
     #testing function
     def increment(self):
         for i in range(100):
             self.myList.insert(tk.END,str(i))
+
 
     #building index and changing labels
     def getAllWebs(self):
