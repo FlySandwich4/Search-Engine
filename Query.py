@@ -16,7 +16,8 @@ def DocumentRetrival(Q, k):
         l = hash_table[term]
         L.append((term, l))
     
-    for a in range(1, 1989):
+    #59393 is the total nums of the docs
+    for a in range(1, 55394):
 
         docScore = 0
         for invertedList in L:
@@ -25,7 +26,7 @@ def DocumentRetrival(Q, k):
                     
                     #print(x["tfidf"])
                     #print(Index.countTFIDF(Q.count(invertedList[0]), len(Q), 1988, len(invertedList[1])))
-                    docScore += (Index.countQueryTFIDF(Q.count(invertedList[0]), len(Q), 1988, len(invertedList[1])) * x["tfidf"])     
+                    docScore += (Index.countQueryTFIDF(Q.count(invertedList[0]), len(Q), 55393, len(invertedList[1])) * x["tfidf"])     
         if R.qsize() < k:
             #print("hah")
             R.put([docScore, a])
@@ -53,11 +54,17 @@ def DocumentRetrival(Q, k):
 if __name__ == "__main__":
     # a = myWindows()
     # a.start()
-    query = "machine learning"
-    query = "University of California"
+    queryList = ["cristina lopes","machine learning","ACM","master of software engineering"]
+
     print()
-    lst = DocumentRetrival(query, 5)
-    with open('url_index.json', 'r') as FA:
-        LstA = json.load(FA)
-        for i in lst:
-            print(LstA[i])
+    for i in queryList:
+        print("Query For:",i)
+        lst = DocumentRetrival(i, 5)
+        with open('url_index.json', 'r') as FA:
+            LstA = json.load(FA)
+            for i in lst:
+                print(LstA[i])
+        
+        print()
+        print("================================================")
+        
