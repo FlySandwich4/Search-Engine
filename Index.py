@@ -214,7 +214,7 @@ def countQueryTFIDF(CountOfT, NumOfWords, Documents, TotalOccur):
     return (1+math.log(CountOfT/NumOfWords, 10))*(math.log(Documents/TotalOccur,10))
 
 if __name__ =="__main__":
-    BuildIndex(findAllUrl('DEV/'))
+    BuildIndex(findAllUrl('ANALYST/'))
     with open('url_index.json', 'w+') as F1:
         json_obj = json.dumps(F_lst)
         F1.write(json_obj)

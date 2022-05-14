@@ -37,7 +37,7 @@ def DocumentRetrival(Q, k):
                 R.put([docScore, a])
             else:
                 R.put(check)
-    print(R.queue)
+    #print(R.queue)
     
     docIDList = []
     while(not R.empty()):
