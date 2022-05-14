@@ -37,9 +37,19 @@ class myWindows:
         
 
         #Label for Google title
-        self.Show_Win_Label = tk.Label(self.Windows, text="DOOGLE")
-        self.Show_Win_Label.place(x=self.width/2-150,y=20,width=300)
+        
+        self.Show_Win_Label = tk.Label(self.Windows, text="D",fg="#f57a00")
+        self.Show_Win_Label.place(x=self.width/2-72,y=0,width=45)
+        self.Show_Win_Label.configure(font=("Times New Roman", 60, "italic",font.BOLD))
+        self.Show_Win_Label = tk.Label(self.Windows, text="OOGLE",fg="#26b5e0")
+        self.Show_Win_Label.place(x=self.width/2-28.5,y=27,width=100)
         self.Show_Win_Label.configure(font=("Times New Roman", 30, "italic"))
+        
+
+
+        self.Show_Win_Label = tk.Label(self.Windows, text="THE DOG, THE GOOGLE, THE DOOGLE",fg="#0d9aba")
+        self.Show_Win_Label.place(x=self.width/2-150,y=63,width=300)
+        self.Show_Win_Label.configure(font=("Times New Roman", 10, "italic",font.BOLD))
 
         #Label for choosing how many values
         self.Label_howManyWebs = tk.Label(self.Windows, text="How many Webs to display?")
@@ -49,7 +59,7 @@ class myWindows:
         #Button of Search button
         Button_Search_height = 30
         Button_Search_width = 100
-        self.Button_Search = tk.Button(self.Windows, text='SEARCH IT!',command = self.getAllWebs)
+        self.Button_Search = tk.Button(self.Windows, text='SEARCH IT!',command = self.getAllWebs,font=("Times New Roman",15,font.BOLD))
         self.Button_Search.place(x=self.width/2+200,y=self.height/4-60,width=Button_Search_width,height=Button_Search_height)
 
         #List Box of choosing how many value
