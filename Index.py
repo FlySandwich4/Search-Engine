@@ -194,6 +194,7 @@ def Merge(file_A, file_B):
     fA.close()
 
     
+    
     fB.close()
 
 
@@ -223,6 +224,18 @@ if __name__ =="__main__":
     for i in range(1,jsonNums):
         Merge("AllWords0.json", "AllWords{i}.json".format(i=i))
         os.remove("AllWords{i}.json".format(i=i))
+
+    hash_table = json.loads(open("AllWords0.json").read())
+    try:
+        os.makedirs("Lib")
+    except:
+        pass
+    for token in hash_table:
+        with open("Lib/"+token + '.json', 'w+') as File:
+            json_obj = json.dumps(hash_table[token],indent=4)
+            File.write(json_obj)
+
+    os.remove("AllWords0.json")
     
     
 
