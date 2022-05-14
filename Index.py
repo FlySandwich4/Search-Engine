@@ -26,6 +26,8 @@ global total_doc
 total_doc = 0
 global jsonNums
 jsonNums = 0
+global F_lst
+F_lst = ['empty']
 import sys
 import time
 
@@ -39,21 +41,30 @@ def findAllUrl(path):
         for f in files:
             if f.endswith('.json'):
                 j_files.add(os.path.join(r, f))
+
     global total_doc
     # open all files 
     total_doc = len(j_files)
     print("This is total {}".format(total_doc))
-    return list(j_files)
+    File_lst = list(j_files)
+
+    
+    return File_lst
         
 
 #return : {token: posting}
 def BuildSmallIndex(DocList,DocIndex):
     #print("build function's toal {}".format(total_doc))
+    global F_lst
     Hash_Table = {}
+
     
     for eachFile in DocList:
         DocIndex += 1
+        
         data = json.loads(open(eachFile).read())
+
+        F_lst.append(data['url'])
 
         sp = BeautifulSoup(data["content"], "lxml")
 
@@ -86,10 +97,10 @@ def BuildSmallIndex(DocList,DocIndex):
                             Hash_Table[k][-1].Positions = Dict[k]
 
 
-        for token, tokenPostings in Hash_Table.items():
-            TotalOccurOfThisToken = len(tokenPostings)
-            for eachPosting in tokenPostings:
-                eachPosting.tfidf = countTFIDF(eachPosting.Tokenfre, eachPosting.WordsInDocid, total_doc, TotalOccurOfThisToken)
+    for token, tokenPostings in Hash_Table.items():
+        TotalOccurOfThisToken = len(tokenPostings)
+        for eachPosting in tokenPostings:
+            eachPosting.tfidf = countTFIDF(eachPosting.Tokenfre, eachPosting.WordsInDocid, total_doc, TotalOccurOfThisToken)
 
     return Hash_Table
 
@@ -195,19 +206,24 @@ def countTFIDF(CountOfT, NumOfWords, Documents, TotalOccur):
     #print("^ doc  v total")
     #print(TotalOccur)
 
-    return (CountOfT/NumOfWords)*(math.log(Documents/TotalOccur,2))
+    return (CountOfT/NumOfWords)*(math.log(Documents/TotalOccur,10))
 
-def countTF(CountOfT, NumOfWords):
-    return (CountOfT/NumOfWords)
-
+# def countTF(CountOfT, NumOfWords):
+#     return (CountOfT/NumOfWords)
+def countQueryTFIDF(CountOfT, NumOfWords, Documents, TotalOccur):
+    return (1+math.log(CountOfT/NumOfWords, 10))*(math.log(Documents/TotalOccur,10))
 
 if __name__ =="__main__":
     BuildIndex(findAllUrl('DEV/'))
+    with open('url_index.json', 'w+') as F1:
+        json_obj = json.dumps(F_lst)
+        F1.write(json_obj)
 
     print("\nStart Merging\n===========================================")
     for i in range(1,jsonNums):
         Merge("AllWords0.json", "AllWords{i}.json".format(i=i))
         os.remove("AllWords{i}.json".format(i=i))
+    
     
 
 
