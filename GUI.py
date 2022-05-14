@@ -116,7 +116,10 @@ class myWindows:
             self.myList.insert(tk.END, "Doggle Don't Know How Many Webs to Display!")
 
         except:
-            self.myList.insert(tk.END, "No Related Content! Please check your input!")
+            if self.Entry_Query.get().lower() == "doogle":
+                self.myList.insert(tk.END, "Oh my God! Doogle is not in the Library? Somebody should add it RIGHT NOW!")
+            else:
+                self.myList.insert(tk.END, "No Related Content! Please check your input!")
 
 
     def start(self):
