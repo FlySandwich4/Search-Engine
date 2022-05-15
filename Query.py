@@ -21,8 +21,20 @@ class QueryClass:
             # print(self.Dict_of_every_Word)
             List_Seperated_Words_in_Q = Q.lower().split()
             self.Dict_of_every_file = self.build_doc_to_Pos(List_Seperated_Words_in_Q)
-            #print(self.Dict_of_every_file)
+            print(self.Dict_of_every_file)
+
+            doc_to_score = {}
+            for eachDoc,eachSubDic in self.Dict_of_every_file.items():
+                doc_to_score[eachDoc] = 0
+                print(eachDoc, eachSubDic)
+                for i,eachWord in enumerate(List_Seperated_Words_in_Q):
+                    print(f"  i: {i}\n  eachWord: {eachWord}\n  eachDoc: {eachDoc}")
+                    if eachWord in eachSubDic:
+                        for eachPos in eachSubDic[eachWord][0]:
+                            print(f"    each Position: {eachPos}")
+                            doc_to_score[eachDoc] += self.recur_getScore(eachPos,self.Dict_of_every_file,eachDoc,eachWord,List_Seperated_Words_in_Q[i+1:])
             
+            print(doc_to_score)
                     
 
         
@@ -32,7 +44,7 @@ class QueryClass:
         #   Judgement 1:  A n B n C
         #       1): Find intersection
             List_Contain_All = self.get_All_Common_Doc(List_Seperated_Words_in_Q)
-            print(List_Contain_All)
+            #print(List_Contain_All)
             #Getting intersection
             
             
@@ -55,10 +67,36 @@ class QueryClass:
             for posting in Temp:
                 if posting["docid"] not in Dict_of_every_file:
                     Dict_of_every_file[posting["docid"]] = {}
-                Dict_of_every_file[posting["docid"]][each] = (posting["Positions"], posting["tfidf"], posting["WordsInDocid"])
+                Dict_of_every_file[posting["docid"]][each] = (set(posting["Positions"]), posting["tfidf"], posting["WordsInDocid"])
                 counter += 1
-        print(Dict_of_every_file)
+        #print(Dict_of_every_file)
         return Dict_of_every_file
+
+
+
+    #Functionality:
+    #       this function input certain position of a word "theword"  and return it's score
+    #       when input is ["A","B","C"] and the word is "A", it should return the score of ABC, AB, and A (total score)
+    #       using 
+    #Parameters:
+    #     --i is the index for positions of each word 
+    #     --doc_to_Pos is the dictionary which key is the "docid" and value is "(set(positions), tfidf, words in that doc)"
+    #     --List_eachWords is a list of words of seperated words of query excepting the first like["B","C"]
+    #     --level is the current words length, like "AB" is level 1 (starting from 0)
+    #       which means the score of this level should multiply by 10
+    def recur_getScore(self,i,doc_to_Pos,theDoc,theWord,List_eachWords,level=0): 
+        if theWord not in doc_to_Pos[theDoc]:
+            return 0
+        theword_tup = doc_to_Pos[theDoc][theWord]
+        if i not in theword_tup[0]:
+            return 0
+        elif List_eachWords == []:
+            return ((10**level) * (len(theword_tup[0])/theword_tup[2]))
+        elif i in theword_tup[0]:
+            return ((10**level) * (len(theword_tup[0])/theword_tup[2])) + \
+                self.recur_getScore(i+1,doc_to_Pos,theDoc,List_eachWords[0],List_eachWords[1:],level+1)
+
+        
             
     def Count_Score(self,word_List):
         pass
@@ -108,8 +146,10 @@ if __name__ == "__main__":
 
 
     c = QueryClass()
-    c.DocumentRetrival("apple ziv",20)
+    dict = c.DocumentRetrival("apple Ziv",20)
+
     #print(c.seperated_Words("a b c d e"))
+
 
     # =======================================================================
     # queryList = ["cristina lopes","machine learning","ACM","master of software engineering"]
