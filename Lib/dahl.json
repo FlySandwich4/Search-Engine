@@ -1,9 +1,18 @@
 [
     {
-        "docid": 212,
+        "docid": 24,
+        "tfidf": 0.0036406361810831065,
+        "fields": [
+            "h1"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 906,
+        "Positions": []
+    },
+    {
+        "docid": 1412,
         "tfidf": 0.04157667705959615,
         "fields": [
-            "p",
             "p",
             "h1",
             "title",
@@ -18,15 +27,5 @@
             286,
             294
         ]
-    },
-    {
-        "docid": 1011,
-        "tfidf": 0.0036406361810831065,
-        "fields": [
-            "h1"
-        ],
-        "Tokenfre": 1,
-        "WordsInDocid": 906,
-        "Positions": []
     }
 ]

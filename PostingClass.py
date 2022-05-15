@@ -24,8 +24,8 @@ class Posting:
         self.Positions = []
     
     def add_field(self, Str):
-        if str not in self.fields:
-            self.fields.append(Str)
+        #if str not in self.fields:
+        self.fields.append(Str)
 
     def __str__(self):
         return "---This posting docid: {d} \n   field: {f}\n   tfidf: {t}".format(d=self.docid, f=self.fields, t=self.tfidf)

@@ -1,7 +1,7 @@
 [
     {
-        "docid": 1143,
-        "tfidf": 0.003226465429921758,
+        "docid": 404,
+        "tfidf": 0.00303691617367237,
         "fields": [
             "h1"
         ],
@@ -10,7 +10,43 @@
         "Positions": []
     },
     {
-        "docid": 1370,
+        "docid": 409,
+        "tfidf": 0.003962493153569707,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 712,
+        "Positions": [
+            148
+        ]
+    },
+    {
+        "docid": 467,
+        "tfidf": 0.0028100549057187567,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 1004,
+        "Positions": [
+            430
+        ]
+    },
+    {
+        "docid": 625,
+        "tfidf": 0.013728487256781588,
+        "fields": [
+            "h1",
+            "title",
+            "head"
+        ],
+        "Tokenfre": 3,
+        "WordsInDocid": 655,
+        "Positions": []
+    },
+    {
+        "docid": 642,
         "tfidf": 0.0029854446059734193,
         "fields": [
             "p"
@@ -22,20 +58,8 @@
         ]
     },
     {
-        "docid": 1547,
-        "tfidf": 0.003787017399906365,
-        "fields": [
-            "p"
-        ],
-        "Tokenfre": 1,
-        "WordsInDocid": 712,
-        "Positions": [
-            148
-        ]
-    },
-    {
-        "docid": 1560,
-        "tfidf": 0.01234972391786259,
+        "docid": 1666,
+        "tfidf": 0.015107250595700585,
         "fields": [
             "h1",
             "title",
@@ -44,29 +68,5 @@
         "Tokenfre": 3,
         "WordsInDocid": 655,
         "Positions": []
-    },
-    {
-        "docid": 1811,
-        "tfidf": 0.01234972391786259,
-        "fields": [
-            "h1",
-            "title",
-            "head"
-        ],
-        "Tokenfre": 3,
-        "WordsInDocid": 655,
-        "Positions": []
-    },
-    {
-        "docid": 1971,
-        "tfidf": 0.0026856139330013267,
-        "fields": [
-            "p"
-        ],
-        "Tokenfre": 1,
-        "WordsInDocid": 1004,
-        "Positions": [
-            430
-        ]
     }
 ]

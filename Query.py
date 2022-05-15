@@ -1,4 +1,5 @@
 from audioop import reverse
+from locale import LC_ALL
 from queue import PriorityQueue
 import json
 import Index
@@ -12,73 +13,91 @@ class QueryClass:
     #Q means the string of the Query , ex: "apple banana"
     #k means the numbers of webs to return , ex: 3 webs to display
     def DocumentRetrival(self,Q, k):
-        
+
         #Step 1: breaking Q into words and initialization
+            # self.Dict_of_every_Word = {}
+            
+            # Prior_Queue = PriorityQueue(k)
+            # print(self.Dict_of_every_Word)
             List_Seperated_Words_in_Q = Q.lower().split()
-            Prior_Queue = PriorityQueue(k)
+            self.Dict_of_every_file = self.build_doc_to_Pos(List_Seperated_Words_in_Q)
+            #print(self.Dict_of_every_file)
+            
+                    
+
         
         
         #Step 2: Iterate every word in List_Seperated_Words_in_Q and execute some judgments:
+        #==================================================================================
         #   Judgement 1:  A n B n C
         #       1): Find intersection
-            List_Contain_All = []
- 
-            for i in json.loads(open(f"Lib/{List_Seperated_Words_in_Q[0]}.json").read()) :
-                count = 0
-                for each_Words_Except_First in List_Seperated_Words_in_Q[1:]:
-                    if i["docid"] in [  i["docid"] for i in json.loads(open(f"Lib/{each_Words_Except_First}.json").read())]:
-                        count += 1
-                if count == len(List_Seperated_Words_in_Q[1:]):
-                    List_Contain_All.append(i["docid"])
-            
+            List_Contain_All = self.get_All_Common_Doc(List_Seperated_Words_in_Q)
             print(List_Contain_All)
-                    
+            #Getting intersection
+            
+            
+            #Giving positions
+            if List_Contain_All != []:
+                for each_Doc in List_Contain_All:
+                    pass
+            
 
 
-
+        #==================================================================================
         #   Jdugement 2:  A U B U C
+
+    def build_doc_to_Pos(self,List_Seperated_Words_in_Q):
+        Dict_of_every_file = {}
+        
+        for each in List_Seperated_Words_in_Q:
+            Temp = json.loads(open(f"Lib/{each}.json").read())
+            counter = 0
+            for posting in Temp:
+                if posting["docid"] not in Dict_of_every_file:
+                    Dict_of_every_file[posting["docid"]] = {}
+                Dict_of_every_file[posting["docid"]][each] = (posting["Positions"], posting["tfidf"], posting["WordsInDocid"])
+                counter += 1
+        print(Dict_of_every_file)
+        return Dict_of_every_file
             
+    def Count_Score(self,word_List):
+        pass
+
+    def seperated_Words(self,s):
+        word_list = s.split()
+        ReturnS = []
+        for lenForSearch in range(2,len(word_list)+1):
+            for startIndex in range(len(word_list)):
+                try:
+                    append_str = ""
+                    for eachWord in range(lenForSearch):
+                        append_str += word_list[eachWord+startIndex]
+                        append_str += " "
+                    ReturnS.append(append_str.strip())
+                except:
+                    break
+        return ReturnS
+
+    def seperated_Words2(self, q):
+        Score = 0
+        lst = q.split()
+        for i in lst:
+            lst_of_ptr = [0 for i in range(len(lst))]
+            #while lst_of_ptr[0] < lst[0]
 
 
-            
-            return []
 
 
-
-    #============================= FROMER CODES
-        #59393 is the total nums of the docs
-        # for a in range(1, 55394):
-
-        #     docScore = 0
-        #     for invertedList in L:
-        #         for x in invertedList[1]:
-        #             if x["docid"] == a:
-                        
-        #                 #print(x["tfidf"])
-        #                 #print(Index.countTFIDF(Q.count(invertedList[0]), len(Q), 1988, len(invertedList[1])))
-        #                 docScore += (Index.countQueryTFIDF(Q.count(invertedList[0]), len(Q), 55393, len(invertedList[1])) * x["tfidf"]) 
-
-            # if R.qsize() < k:
-            #     #print("hah")
-            #     R.put([docScore, a])
-            # else:
-            #     #print("hehe")
-            #     check = R.get()
-            #     if docScore > check[0]:
-            #         R.put([docScore, a])
-            #     else:
-            #         R.put(check)
-        #print(R.queue)
-
-        # docIDList = []
-        # while(not R.empty()):
-        #     docIDList.append(R.get())
-        # docIDList = [x[1] for x in sorted(docIDList, key = lambda x: -x[0])]
-        #return docIDList
-    #============================= FROMER CODES ENDS HERE
-
-
-                
+    def get_All_Common_Doc(self,List_Seperated_Words_in_Q):
+        List_Contain_All = []
+        for i in json.loads(open(f"Lib/{List_Seperated_Words_in_Q[0]}.json").read()) :
+            count = 0
+            for each_Words_Except_First in List_Seperated_Words_in_Q[1:]:
+                if i["docid"] in [  i["docid"] for i in json.loads(open(f"Lib/{each_Words_Except_First}.json").read())]:
+                    count += 1
+            if count == len(List_Seperated_Words_in_Q[1:]):
+                List_Contain_All.append(i["docid"])
+        return List_Contain_All
 
 
 
@@ -89,7 +108,8 @@ if __name__ == "__main__":
 
 
     c = QueryClass()
-    c.DocumentRetrival("lab study engine",20)
+    c.DocumentRetrival("apple ziv",20)
+    #print(c.seperated_Words("a b c d e"))
 
     # =======================================================================
     # queryList = ["cristina lopes","machine learning","ACM","master of software engineering"]

@@ -1,20 +1,54 @@
 [
     {
-        "docid": 444,
-        "tfidf": 0.003798968801517507,
+        "docid": 188,
+        "tfidf": 0.022865971438899787,
+        "fields": [
+            "p",
+            "h2",
+            "title",
+            "head"
+        ],
+        "Tokenfre": 4,
+        "WordsInDocid": 577,
+        "Positions": [
+            6,
+            340,
+            350
+        ]
+    },
+    {
+        "docid": 689,
+        "tfidf": 0.004348604324405134,
         "fields": [
             "p",
             "h2"
         ],
         "Tokenfre": 2,
-        "WordsInDocid": 1578,
+        "WordsInDocid": 1517,
         "Positions": [
-            1183,
-            1193
+            1042,
+            1052
         ]
     },
     {
-        "docid": 445,
+        "docid": 1398,
+        "tfidf": 0.022865971438899787,
+        "fields": [
+            "p",
+            "h2",
+            "title",
+            "head"
+        ],
+        "Tokenfre": 4,
+        "WordsInDocid": 577,
+        "Positions": [
+            6,
+            340,
+            350
+        ]
+    },
+    {
+        "docid": 1812,
         "tfidf": 0.003951728918124341,
         "fields": [
             "p",
@@ -28,51 +62,17 @@
         ]
     },
     {
-        "docid": 784,
-        "tfidf": 0.019558371752801607,
-        "fields": [
-            "p",
-            "h2",
-            "title",
-            "head"
-        ],
-        "Tokenfre": 4,
-        "WordsInDocid": 577,
-        "Positions": [
-            6,
-            340,
-            350
-        ]
-    },
-    {
-        "docid": 870,
-        "tfidf": 0.019558371752801607,
-        "fields": [
-            "p",
-            "h2",
-            "title",
-            "head"
-        ],
-        "Tokenfre": 4,
-        "WordsInDocid": 577,
-        "Positions": [
-            6,
-            340,
-            350
-        ]
-    },
-    {
-        "docid": 909,
-        "tfidf": 0.003719571687991604,
+        "docid": 1959,
+        "tfidf": 0.003798968801517507,
         "fields": [
             "p",
             "h2"
         ],
         "Tokenfre": 2,
-        "WordsInDocid": 1517,
+        "WordsInDocid": 1578,
         "Positions": [
-            1042,
-            1052
+            1183,
+            1193
         ]
     }
 ]

@@ -1,36 +1,6 @@
 [
     {
-        "docid": 158,
-        "tfidf": 0.00900792301847427,
-        "fields": [
-            "p",
-            "p",
-            "h2",
-            "h2"
-        ],
-        "Tokenfre": 4,
-        "WordsInDocid": 1331,
-        "Positions": [
-            888,
-            913,
-            1161,
-            1171
-        ]
-    },
-    {
-        "docid": 240,
-        "tfidf": 0.002179917370470773,
-        "fields": [
-            "p"
-        ],
-        "Tokenfre": 1,
-        "WordsInDocid": 1375,
-        "Positions": [
-            1106
-        ]
-    },
-    {
-        "docid": 835,
+        "docid": 23,
         "tfidf": 0.03611308896864233,
         "fields": [
             "h1",
@@ -42,8 +12,20 @@
         "Positions": []
     },
     {
-        "docid": 869,
-        "tfidf": 0.02296847804135872,
+        "docid": 487,
+        "tfidf": 0.002179917370470773,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 1375,
+        "Positions": [
+            1106
+        ]
+    },
+    {
+        "docid": 647,
+        "tfidf": 0.019919129315902496,
         "fields": [
             "p",
             "h2",
@@ -59,30 +41,30 @@
         ]
     },
     {
-        "docid": 1058,
-        "tfidf": 0.016831188444028287,
+        "docid": 677,
+        "tfidf": 0.0027507369055293925,
         "fields": [
-            "p",
-            "p",
-            "h2",
-            "title",
-            "head"
+            "h1"
         ],
-        "Tokenfre": 5,
-        "WordsInDocid": 801,
+        "Tokenfre": 1,
+        "WordsInDocid": 945,
+        "Positions": []
+    },
+    {
+        "docid": 707,
+        "tfidf": 0.0018905064550729276,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 1375,
         "Positions": [
-            5,
-            331,
-            357,
-            551,
-            661,
-            669,
-            694
+            1106
         ]
     },
     {
-        "docid": 1249,
-        "tfidf": 0.02066173477956576,
+        "docid": 825,
+        "tfidf": 0.019919129315902496,
         "fields": [
             "p",
             "h2",
@@ -98,12 +80,10 @@
         ]
     },
     {
-        "docid": 1399,
-        "tfidf": 0.008103249853443522,
+        "docid": 918,
+        "tfidf": 0.007812010144929454,
         "fields": [
             "p",
-            "p",
-            "h2",
             "h2"
         ],
         "Tokenfre": 4,
@@ -116,22 +96,10 @@
         ]
     },
     {
-        "docid": 1401,
-        "tfidf": 0.002853287183844796,
-        "fields": [
-            "h1"
-        ],
-        "Tokenfre": 1,
-        "WordsInDocid": 945,
-        "Positions": []
-    },
-    {
-        "docid": 1517,
-        "tfidf": 0.00825543562645686,
+        "docid": 1150,
+        "tfidf": 0.008770699003357172,
         "fields": [
             "p",
-            "p",
-            "h2",
             "h2"
         ],
         "Tokenfre": 4,
@@ -144,10 +112,9 @@
         ]
     },
     {
-        "docid": 1639,
-        "tfidf": 0.017611080682532032,
+        "docid": 1320,
+        "tfidf": 0.018710277056163002,
         "fields": [
-            "p",
             "p",
             "h2",
             "title",
@@ -166,15 +133,40 @@
         ]
     },
     {
-        "docid": 1870,
-        "tfidf": 0.0020518510002484596,
+        "docid": 1580,
+        "tfidf": 0.00900792301847427,
         "fields": [
-            "p"
+            "p",
+            "h2"
         ],
-        "Tokenfre": 1,
-        "WordsInDocid": 1375,
+        "Tokenfre": 4,
+        "WordsInDocid": 1331,
         "Positions": [
-            1106
+            888,
+            913,
+            1161,
+            1171
+        ]
+    },
+    {
+        "docid": 1588,
+        "tfidf": 0.018710277056163002,
+        "fields": [
+            "p",
+            "h2",
+            "title",
+            "head"
+        ],
+        "Tokenfre": 5,
+        "WordsInDocid": 801,
+        "Positions": [
+            5,
+            331,
+            357,
+            551,
+            661,
+            669,
+            694
         ]
     }
 ]

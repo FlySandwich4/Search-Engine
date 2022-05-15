@@ -88,7 +88,8 @@ def BuildSmallIndex(DocList,DocIndex):
                             if regionInText == 'p' and k in Dict:
                                 Hash_Table[k][-1].Positions = Dict[k]
                         else:
-                            Hash_Table[k][-1].add_field(regionInText)
+                            if regionInText not in Hash_Table[k][-1].fields:
+                                Hash_Table[k][-1].add_field(regionInText)
                             Hash_Table[k][-1].Tokenfre += d[k]
                     else:
                         Hash_Table[k] = []
