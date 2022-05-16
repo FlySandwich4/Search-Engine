@@ -1,19 +1,40 @@
 [
     {
-        "docid": 168,
-        "tfidf": 0.014095796495988439,
+        "docid": 1934,
+        "tfidf": 0.025744666955263444,
         "fields": [
-            "p"
+            "p",
+            "h2"
         ],
-        "Tokenfre": 1,
-        "WordsInDocid": 234,
+        "Tokenfre": 4,
+        "WordsInDocid": 737,
         "Positions": [
-            137
+            583,
+            591,
+            593,
+            674
         ]
     },
     {
-        "docid": 1598,
-        "tfidf": 0.0030095039964062906,
+        "docid": 2134,
+        "tfidf": 0.006592710057689075,
+        "fields": [
+            "p",
+            "h2"
+        ],
+        "Tokenfre": 4,
+        "WordsInDocid": 2878,
+        "Positions": [
+            583,
+            591,
+            593,
+            674,
+            1269
+        ]
+    },
+    {
+        "docid": 7152,
+        "tfidf": 0.004327969786959205,
         "fields": [
             "p"
         ],
@@ -21,6 +42,55 @@
         "WordsInDocid": 1096,
         "Positions": [
             1075
+        ]
+    },
+    {
+        "docid": 19319,
+        "tfidf": 2.4635373203393933e-05,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 2,
+        "WordsInDocid": 385093,
+        "Positions": [
+            52734,
+            52735
+        ]
+    },
+    {
+        "docid": 24664,
+        "tfidf": 0.0007302116512480434,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 6496,
+        "Positions": [
+            2558
+        ]
+    },
+    {
+        "docid": 34036,
+        "tfidf": 0.0021114186743551844,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 2104,
+        "Positions": [
+            1954
+        ]
+    },
+    {
+        "docid": 34357,
+        "tfidf": 0.018984721755740636,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 234,
+        "Positions": [
+            137
         ]
     }
 ]

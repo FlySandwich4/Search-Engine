@@ -3,6 +3,7 @@ from locale import LC_ALL
 from queue import PriorityQueue
 import json
 import Index
+import time
 
 
 class QueryClass:
@@ -21,42 +22,31 @@ class QueryClass:
             # print(self.Dict_of_every_Word)
             List_Seperated_Words_in_Q = Q.lower().split()
             self.Dict_of_every_file = self.build_doc_to_Pos(List_Seperated_Words_in_Q)
-            print(self.Dict_of_every_file)
+            #print(self.Dict_of_every_file)
 
             doc_to_score = {}
+
+
+            
             for eachDoc,eachSubDic in self.Dict_of_every_file.items():
                 doc_to_score[eachDoc] = 0
-                print(eachDoc, eachSubDic)
+                #print(eachDoc, eachSubDic)
                 for i,eachWord in enumerate(List_Seperated_Words_in_Q):
-                    print(f"  i: {i}\n  eachWord: {eachWord}\n  eachDoc: {eachDoc}")
-                    if eachWord in eachSubDic:
+                    #print(f"  i: {i}\n  eachWord: {eachWord}\n  eachDoc: {eachDoc}")
+                    if eachWord in eachSubDic:         
                         for eachPos in eachSubDic[eachWord][0]:
-                            print(f"    each Position: {eachPos}")
+                            #print(f"    each Position: {eachPos}")
+                            
                             doc_to_score[eachDoc] += self.recur_getScore(eachPos,self.Dict_of_every_file,eachDoc,eachWord,List_Seperated_Words_in_Q[i+1:])
+                        #print(f"        recursion {eachPos} : {time.time()-recurtime}")    
             
-            print(doc_to_score)
+            #print(doc_to_score)
+            return doc_to_score
                     
 
         
         
-        #Step 2: Iterate every word in List_Seperated_Words_in_Q and execute some judgments:
-        #==================================================================================
-        #   Judgement 1:  A n B n C
-        #       1): Find intersection
-            List_Contain_All = self.get_All_Common_Doc(List_Seperated_Words_in_Q)
-            #print(List_Contain_All)
-            #Getting intersection
-            
-            
-            #Giving positions
-            if List_Contain_All != []:
-                for each_Doc in List_Contain_All:
-                    pass
-            
 
-
-        #==================================================================================
-        #   Jdugement 2:  A U B U C
 
     def build_doc_to_Pos(self,List_Seperated_Words_in_Q):
         Dict_of_every_file = {}
@@ -73,30 +63,44 @@ class QueryClass:
         return Dict_of_every_file
 
 
+    #Functionality:
+    #       this function will return the score of the certain docid
+    #       the score is determined by whether ALL WORDS are in the docid, ex: All A and B and C in the dod
+    #       if one of the words doesn't appear, it return 0
+    def Count_All_Words(self,i,doc_to_Pos,theDoc,firstWord,secondToEndWords,level=0):
+        pass
+
+
+
 
     #Functionality:
     #       this function input certain position of a word "theword"  and return it's score
     #       when input is ["A","B","C"] and the word is "A", it should return the score of ABC, AB, and A (total score)
-    #       using 
+    #       
     #Parameters:
     #     --i is the index for positions of each word 
     #     --doc_to_Pos is the dictionary which key is the "docid" and value is "(set(positions), tfidf, words in that doc)"
     #     --List_eachWords is a list of words of seperated words of query excepting the first like["B","C"]
     #     --level is the current words length, like "AB" is level 1 (starting from 0)
     #       which means the score of this level should multiply by 10
-    def recur_getScore(self,i,doc_to_Pos,theDoc,theWord,List_eachWords,level=0): 
+    def recur_getScore(self,i,doc_to_Pos,theDoc,theWord,List_eachWords,level=0):
+        
         if theWord not in doc_to_Pos[theDoc]:
             return 0
         theword_tup = doc_to_Pos[theDoc][theWord]
         if i not in theword_tup[0]:
             return 0
         elif List_eachWords == []:
+            if level == 0:
+                return theword_tup[1]
             return ((10**level) * (len(theword_tup[0])/theword_tup[2]))
         elif i in theword_tup[0]:
+            if level == 0:
+                return theword_tup[1]
             return ((10**level) * (len(theword_tup[0])/theword_tup[2])) + \
                 self.recur_getScore(i+1,doc_to_Pos,theDoc,List_eachWords[0],List_eachWords[1:],level+1)
 
-        
+
             
     def Count_Score(self,word_List):
         pass
@@ -146,16 +150,30 @@ if __name__ == "__main__":
 
 
     c = QueryClass()
-    dict = c.DocumentRetrival("apple Ziv",20)
 
-    #print(c.seperated_Words("a b c d e"))
+    start = time.time()
+    dict = c.DocumentRetrival("machine learning",5)
+    print(time.time()-start)
+    
+    f = open("url_index.json","r") 
+    lst = json.load(f)
 
+    i = 0
+    for each in sorted(dict.keys(), key= lambda x: -dict[x]):
+        if i > 4:
+            break
+        print("================================")
+        print(f"    each doc:       {each}")
+        print(f"    url:            {lst[each]}")
+        print(f"    score of doc:   {dict[each]}")
+        print()
+        i += 1
 
     # =======================================================================
     # queryList = ["cristina lopes","machine learning","ACM","master of software engineering"]
 
     # print()
-    # for i in queryList:
+    # for i in dict:
     #     print("Query For:",i)
     #     lst = DocumentRetrival(i, 5)
     #     with open('url_index.json', 'r') as FA:

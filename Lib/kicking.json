@@ -1,7 +1,55 @@
 [
     {
-        "docid": 369,
-        "tfidf": 0.004534623879572335,
+        "docid": 5063,
+        "tfidf": 0.3388182061790921,
+        "fields": [
+            "h2",
+            "title",
+            "head"
+        ],
+        "Tokenfre": 3,
+        "WordsInDocid": 42,
+        "Positions": []
+    },
+    {
+        "docid": 15904,
+        "tfidf": 1.938390544972351e-05,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 244711,
+        "Positions": [
+            109247
+        ]
+    },
+    {
+        "docid": 19319,
+        "tfidf": 1.2317686601696966e-05,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 385093,
+        "Positions": [
+            230269
+        ]
+    },
+    {
+        "docid": 30286,
+        "tfidf": 0.0005297877798075936,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 2,
+        "WordsInDocid": 17907,
+        "Positions": [
+            2430
+        ]
+    },
+    {
+        "docid": 33822,
+        "tfidf": 0.007176179858558684,
         "fields": [
             "p"
         ],
@@ -12,15 +60,41 @@
         ]
     },
     {
-        "docid": 462,
-        "tfidf": 0.004534623879572335,
+        "docid": 35475,
+        "tfidf": 1.938390544972351e-05,
         "fields": [
             "p"
         ],
         "Tokenfre": 1,
-        "WordsInDocid": 661,
+        "WordsInDocid": 244711,
         "Positions": [
-            613
+            6656
+        ]
+    },
+    {
+        "docid": 35774,
+        "tfidf": 0.273660858836959,
+        "fields": [
+            "h2",
+            "title",
+            "head"
+        ],
+        "Tokenfre": 3,
+        "WordsInDocid": 52,
+        "Positions": []
+    },
+    {
+        "docid": 45279,
+        "tfidf": 0.008741010233121542,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 3,
+        "WordsInDocid": 1628,
+        "Positions": [
+            165,
+            753,
+            1531
         ]
     }
 ]

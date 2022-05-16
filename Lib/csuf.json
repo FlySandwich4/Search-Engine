@@ -1,7 +1,7 @@
 [
     {
-        "docid": 232,
-        "tfidf": 0.0033899448921493264,
+        "docid": 23066,
+        "tfidf": 0.004875082103296289,
         "fields": [
             "p"
         ],
@@ -12,20 +12,23 @@
         ]
     },
     {
-        "docid": 1166,
-        "tfidf": 0.003080561546143179,
+        "docid": 31620,
+        "tfidf": 0.6187115069357334,
         "fields": [
-            "p"
+            "p",
+            "title",
+            "head"
         ],
-        "Tokenfre": 1,
-        "WordsInDocid": 973,
+        "Tokenfre": 3,
+        "WordsInDocid": 23,
         "Positions": [
-            455
+            0,
+            8
         ]
     },
     {
-        "docid": 1485,
-        "tfidf": 0.004731470220043115,
+        "docid": 32091,
+        "tfidf": 0.007487695164178831,
         "fields": [
             "p"
         ],
@@ -37,16 +40,15 @@
         ]
     },
     {
-        "docid": 1784,
-        "tfidf": 0.00520665569070449,
+        "docid": 47465,
+        "tfidf": 0.007738099325460506,
         "fields": [
             "p"
         ],
-        "Tokenfre": 2,
-        "WordsInDocid": 1267,
+        "Tokenfre": 1,
+        "WordsInDocid": 613,
         "Positions": [
-            652,
-            665
+            331
         ]
     }
 ]

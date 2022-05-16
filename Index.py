@@ -1,4 +1,3 @@
-
 #/==========================================\
 #|This hw is done by a group with 4 members:|
 #|   Name        ;NetID      ;StudentID     |
@@ -13,6 +12,7 @@ import math
 from operator import iand
 from re import A
 import urllib.request
+from urllib.parse import urlparse
 from pathlib import Path
 # import re
 import os
@@ -37,9 +37,11 @@ print("success import")
 def findAllUrl(path):
     j_files = set()
     # add all paths of files end with ".json" into j_files 
+    #url_set = set()
     for r, d, files in os.walk(path):
         for f in files:
             if f.endswith('.json'):
+                #if not parsed.netloc + parsed.path in url_set:
                 j_files.add(os.path.join(r, f))
 
     global total_doc
@@ -64,38 +66,41 @@ def BuildSmallIndex(DocList,DocIndex):
         
         data = json.loads(open(eachFile).read())
 
-        F_lst.append(data['url'])
+        url = data['url']
+        parsed = urlparse(url)
+        new_url = parsed.netloc + parsed.path
+        if new_url not in F_lst:
+            F_lst.append(new_url)
+        
+            sp = BeautifulSoup(data["content"], "lxml")
 
-        sp = BeautifulSoup(data["content"], "lxml")
+            WholeTextInEachFile = sp.get_text()
+            # A dictionary containing all tokens' corresponding positions
+            Dict = Tokenizer.READ(WholeTextInEachFile) 
 
-        WholeTextInEachFile = sp.get_text()
-        # A dictionary containing all tokens' corresponding positions
-        Dict = Tokenizer.READ(WholeTextInEachFile) 
+            Len = sum(len(i) for i in Dict.values()) # length of 
 
-        Len = sum(len(i) for i in Dict.values()) # length of 
+            # p: paragraph  h#: small titles 
+            regions = ['p', 'h3', 'h2', 'h1', 'title', 'head']
+            for regionInText in regions:
 
-        # p: paragraph  h#: small titles 
-        regions = ['p', 'h3', 'h2', 'h1', 'title', 'head']
-        for regionInText in regions:
-
-            for TextInEachRegion in sp.find_all(regionInText):
-                d = Tokenizer.Count(Tokenizer.READ(TextInEachRegion.text)) 
-
-                for k in d:
-                    if k in Hash_Table:
-                        if not Hash_Table[k][-1].docid == DocIndex:
+                for TextInEachRegion in sp.find_all(regionInText):
+                    d = Tokenizer.Count(Tokenizer.READ(TextInEachRegion.text)) 
+                    for k in d:
+                        if k in Hash_Table:
+                            if not Hash_Table[k][-1].docid == DocIndex:
+                                Hash_Table[k].append(Posting(DocIndex, 0, regionInText, d[k], Len))
+                                if regionInText == 'p' and k in Dict:
+                                    Hash_Table[k][-1].Positions = Dict[k]
+                            else:
+                                if regionInText not in Hash_Table[k][-1].fields:
+                                    Hash_Table[k][-1].add_field(regionInText)
+                                Hash_Table[k][-1].Tokenfre += d[k]
+                        else:
+                            Hash_Table[k] = []
                             Hash_Table[k].append(Posting(DocIndex, 0, regionInText, d[k], Len))
                             if regionInText == 'p' and k in Dict:
                                 Hash_Table[k][-1].Positions = Dict[k]
-                        else:
-                            if regionInText not in Hash_Table[k][-1].fields:
-                                Hash_Table[k][-1].add_field(regionInText)
-                            Hash_Table[k][-1].Tokenfre += d[k]
-                    else:
-                        Hash_Table[k] = []
-                        Hash_Table[k].append(Posting(DocIndex, 0, regionInText, d[k], Len))
-                        if regionInText == 'p' and k in Dict:
-                            Hash_Table[k][-1].Positions = Dict[k]
 
 
     for token, tokenPostings in Hash_Table.items():
@@ -216,7 +221,7 @@ def countQueryTFIDF(CountOfT, NumOfWords, Documents, TotalOccur):
     return (1+math.log(CountOfT/NumOfWords, 10))*(math.log(Documents/TotalOccur,10))
 
 if __name__ =="__main__":
-    BuildIndex(findAllUrl('ANALYST/'))
+    BuildIndex(findAllUrl('DEV/'))
     with open('url_index.json', 'w+') as F1:
         json_obj = json.dumps(F_lst)
         F1.write(json_obj)
@@ -225,6 +230,8 @@ if __name__ =="__main__":
     for i in range(1,jsonNums):
         Merge("AllWords0.json", "AllWords{i}.json".format(i=i))
         os.remove("AllWords{i}.json".format(i=i))
+
+    
 
     hash_table = json.loads(open("AllWords0.json").read())
     try:
@@ -237,8 +244,3 @@ if __name__ =="__main__":
             File.write(json_obj)
 
     os.remove("AllWords0.json")
-    
-    
-
-
-

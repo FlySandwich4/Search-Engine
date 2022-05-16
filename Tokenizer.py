@@ -24,7 +24,7 @@ def READ(file): # O(N)
             # so in that situation, I would keep that
             # O(N) since every words has to be checked
             j = j.lower() # O(N) since nearly every words has to be lowered
-            if len(j) > 1 : # O(N) since nearly every words has to be checked  
+            if len(j) > 1 and len(j) < 255: # O(N) since nearly every words has to be checked  
                 if j not in Tokens: # if this word is not in dictionary, then we add this word into the dictionary
                     Tokens[j] = []
                 Tokens[j].append(counter) # add the new position into the list of position for this token

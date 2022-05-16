@@ -1,7 +1,19 @@
 [
     {
-        "docid": 777,
-        "tfidf": 0.0028492266011381304,
+        "docid": 16502,
+        "tfidf": 0.010402313347603704,
+        "fields": [
+            "p"
+        ],
+        "Tokenfre": 1,
+        "WordsInDocid": 456,
+        "Positions": [
+            79
+        ]
+    },
+    {
+        "docid": 20530,
+        "tfidf": 0.004222837348710369,
         "fields": [
             "p"
         ],
@@ -12,20 +24,33 @@
         ]
     },
     {
-        "docid": 860,
-        "tfidf": 0.002817092466538828,
+        "docid": 20966,
+        "tfidf": 0.01861351211247196,
+        "fields": [
+            "h1",
+            "title",
+            "head"
+        ],
+        "Tokenfre": 3,
+        "WordsInDocid": 716,
+        "Positions": []
+    },
+    {
+        "docid": 32691,
+        "tfidf": 0.015154807944112746,
         "fields": [
             "p"
         ],
-        "Tokenfre": 1,
-        "WordsInDocid": 1064,
+        "Tokenfre": 2,
+        "WordsInDocid": 626,
         "Positions": [
-            938
+            122,
+            200
         ]
     },
     {
-        "docid": 1185,
-        "tfidf": 0.0035891364309698524,
+        "docid": 37171,
+        "tfidf": 0.00516153959358791,
         "fields": [
             "p"
         ],
@@ -36,28 +61,35 @@
         ]
     },
     {
-        "docid": 1623,
-        "tfidf": 0.0028411245349737567,
+        "docid": 40252,
+        "tfidf": 0.004458134291830159,
         "fields": [
             "p"
         ],
         "Tokenfre": 1,
-        "WordsInDocid": 1055,
+        "WordsInDocid": 1064,
         "Positions": [
-            949
+            938
         ]
     },
     {
-        "docid": 1637,
-        "tfidf": 0.009576314327147966,
+        "docid": 41050,
+        "tfidf": 0.008673525798164487,
         "fields": [
             "p"
         ],
-        "Tokenfre": 2,
-        "WordsInDocid": 626,
+        "Tokenfre": 9,
+        "WordsInDocid": 4922,
         "Positions": [
-            122,
-            200
+            1,
+            6,
+            75,
+            139,
+            144,
+            342,
+            347,
+            833,
+            840
         ]
     }
 ]
