@@ -30,7 +30,8 @@ global F_lst
 F_lst = ['empty']
 import sys
 import time
-
+global this_time
+this_time = 0
 print("success import")
 
 
@@ -44,10 +45,10 @@ def findAllUrl(path):
                 #if not parsed.netloc + parsed.path in url_set:
                 j_files.add(os.path.join(r, f))
 
-    global total_doc
+    #global total_doc
     # open all files 
-    total_doc = len(j_files)
-    print("This is total {}".format(total_doc))
+    #total_doc = len(j_files)
+    #print("This is total {}".format(total_doc))
     File_lst = list(j_files)
 
     
@@ -58,11 +59,13 @@ def findAllUrl(path):
 def BuildSmallIndex(DocList,DocIndex):
     #print("build function's toal {}".format(total_doc))
     global F_lst
+    global this_time
+    global total_doc
     Hash_Table = {}
 
     
     for eachFile in DocList:
-        DocIndex += 1
+        
         
         data = json.loads(open(eachFile).read())
 
@@ -70,7 +73,10 @@ def BuildSmallIndex(DocList,DocIndex):
         parsed = urlparse(url)
         new_url = parsed.netloc + parsed.path
         if new_url not in F_lst:
+            DocIndex += 1
             F_lst.append(new_url)
+            total_doc += 1
+            this_time += 1
         
             sp = BeautifulSoup(data["content"], "lxml")
 
@@ -86,12 +92,23 @@ def BuildSmallIndex(DocList,DocIndex):
 
                 for TextInEachRegion in sp.find_all(regionInText):
                     d = Tokenizer.Count(Tokenizer.READ(TextInEachRegion.text)) 
+                    
                     for k in d:
                         if k in Hash_Table:
                             if not Hash_Table[k][-1].docid == DocIndex:
                                 Hash_Table[k].append(Posting(DocIndex, 0, regionInText, d[k], Len))
                                 if regionInText == 'p' and k in Dict:
-                                    Hash_Table[k][-1].Positions = Dict[k]
+                                    Hash_Table[k][-1].Positions += Dict[k]
+                                elif regionInText == 'h3' and k in Dict:
+                                    Hash_Table[k][-1].Positions += [i + 100000000 for i in Dict[k]]
+                                elif regionInText == 'h2' and k in Dict:
+                                    Hash_Table[k][-1].Positions += [i + 200000000 for i in Dict[k]]
+                                elif regionInText == 'h1' and k in Dict:
+                                    Hash_Table[k][-1].Positions += [i + 300000000 for i in Dict[k]]
+                                elif regionInText == 'title' and k in Dict:
+                                    Hash_Table[k][-1].Positions += [i + 400000000 for i in Dict[k]]
+                                elif regionInText == 'head' and k in Dict:
+                                    Hash_Table[k][-1].Positions += [i + 500000000 for i in Dict[k]]
                             else:
                                 if regionInText not in Hash_Table[k][-1].fields:
                                     Hash_Table[k][-1].add_field(regionInText)
@@ -100,7 +117,17 @@ def BuildSmallIndex(DocList,DocIndex):
                             Hash_Table[k] = []
                             Hash_Table[k].append(Posting(DocIndex, 0, regionInText, d[k], Len))
                             if regionInText == 'p' and k in Dict:
-                                Hash_Table[k][-1].Positions = Dict[k]
+                                Hash_Table[k][-1].Positions += Dict[k]
+                            elif regionInText == 'h3' and k in Dict:
+                                Hash_Table[k][-1].Positions += [i + 100000000 for i in Dict[k]]
+                            elif regionInText == 'h2' and k in Dict:
+                                Hash_Table[k][-1].Positions += [i + 200000000 for i in Dict[k]]
+                            elif regionInText == 'h1' and k in Dict:
+                                Hash_Table[k][-1].Positions += [i + 300000000 for i in Dict[k]]
+                            elif regionInText == 'title' and k in Dict:
+                                Hash_Table[k][-1].Positions += [i + 400000000 for i in Dict[k]]
+                            elif regionInText == 'head' and k in Dict:
+                                Hash_Table[k][-1].Positions += [i + 500000000 for i in Dict[k]]
 
 
     for token, tokenPostings in Hash_Table.items():
@@ -114,6 +141,7 @@ def BuildSmallIndex(DocList,DocIndex):
         
 def BuildIndex(D):
     global jsonNums
+    global this_time
     Hash_Table = {}
     n = 0
     B = []
@@ -141,7 +169,9 @@ def BuildIndex(D):
         theI += 1
         Hash_Table = {}
         B = []
-        n += 500
+        n += this_time
+        this_time = 0
+        #n += 500
         jsonNums += 1
         
 
@@ -221,7 +251,7 @@ def countQueryTFIDF(CountOfT, NumOfWords, Documents, TotalOccur):
     return (1+math.log(CountOfT/NumOfWords, 10))*(math.log(Documents/TotalOccur,10))
 
 if __name__ =="__main__":
-    BuildIndex(findAllUrl('DEV/'))
+    BuildIndex(findAllUrl('ANALYST/'))
     with open('url_index.json', 'w+') as F1:
         json_obj = json.dumps(F_lst)
         F1.write(json_obj)
