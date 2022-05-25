@@ -4,6 +4,33 @@ from queue import PriorityQueue
 import json
 import Index
 import time
+global Index_OfIndex 
+Index_Of_Index = {}
+
+
+def changeStringToDict(str):
+
+    doct = {}
+    docid_index = str.find('docid')
+    tfidf_index = str.find('tfidf')
+    fileds_index = str.find('fields')
+    tokenfre_index = str.find('Tokenfre')
+    lst = str[fileds_index+11:tokenfre_index-5].split("', '")
+    WordsInDocid_index = str.find("WordsInDocid")
+    positions_index = str.find("Positions")
+    last_index = str.find("]}")
+    lst_2 = str[positions_index+13:last_index].split(", ")
+    for i in range(len(lst_2)):
+        lst_2[i] = int(lst_2[i])
+
+    doct["docid"] = int(str[docid_index+8:tfidf_index-3])
+    doct["tfidf"] = float(str[tfidf_index+8:fileds_index-3])
+    doct["fields"] = lst
+    doct["Tokenfre"] = int(str[tokenfre_index+11:WordsInDocid_index-3])
+    doct["WordsInDocid"] = int(str[WordsInDocid_index+15:positions_index-3])
+    doct["Positions"] = lst_2
+
+    return doct
 
 
 class QueryClass:
@@ -42,17 +69,40 @@ class QueryClass:
             
             #print(doc_to_score)
             return doc_to_score
-                    
-
-        
-        
 
 
     def build_doc_to_Pos(self,List_Seperated_Words_in_Q):
         Dict_of_every_file = {}
-        
+
+        OpenInvertedList = open("TokenEachLine.txt", 'r')   
+
         for each in List_Seperated_Words_in_Q:
-            Temp = json.loads(open(f"Lib/{each}.json").read())
+            #Temp = json.loads(open(f"Lib/{each}.json").read())
+
+            global Index_Of_Index
+            #LineNumber = Index_Of_Index[each].first
+            StartingByte = Index_Of_Index[each]
+
+            OpenInvertedList.seek(StartingByte) # the byte we start to read
+            StringFormat = OpenInvertedList.readline()
+            #ListFormat = list(StringFormat)
+
+            StringFormat = StringFormat[1::]
+            StringFormat = StringFormat[:-1:]
+
+            LstOfBrackets = StringFormat.split('},')
+            for i in range(len(LstOfBrackets)):
+                LstOfBrackets[i] += '}'
+        
+
+            Temp = []
+            for Diction in LstOfBrackets:
+                Real_dict = changeStringToDict(Diction)
+                Temp.append(Real_dict)
+            
+
+            
+
             counter = 0
             for posting in Temp:
                 if posting["docid"] not in Dict_of_every_file:
@@ -148,13 +198,16 @@ if __name__ == "__main__":
     # a = myWindows()
     # a.start()
 
-
     c = QueryClass()
 
-    start = time.time()
-    dict = c.DocumentRetrival("machine learning",5)
-    print(time.time()-start)
     
+
+    Index_Of_Index = json.loads(open("IndexOfIndex.json").read())
+
+    start = time.time()
+
+    dict = c.DocumentRetrival("university of the",5)
+
     f = open("url_index.json","r") 
     lst = json.load(f)
 
@@ -168,6 +221,9 @@ if __name__ == "__main__":
         print(f"    score of doc:   {dict[each]}")
         print()
         i += 1
+
+    print()
+    print("this much of time has been used:", time.time()-start)
 
     # =======================================================================
     # queryList = ["cristina lopes","machine learning","ACM","master of software engineering"]

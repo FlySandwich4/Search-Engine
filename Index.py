@@ -53,6 +53,7 @@ def findAllUrl(path):
 
     
     return File_lst
+
         
 class buildIndex:
     def __init__(self):
@@ -267,19 +268,43 @@ if __name__ =="__main__":
         Merge("AllWords0.json", "AllWords{i}.json".format(i=i))
         os.remove("AllWords{i}.json".format(i=i))
 
-    
+    DictOfTokens = json.loads(open("AllWords0.json").read())
+    InvertedList = open("TokenEachLine.txt", 'w')
+    #counter = 0
+    Wordscount = 0
+    with open("IndexOfIndex.json", 'w+') as Indexer:
+        DictOfIndex = {}
+        for token in DictOfTokens:
+            #counter += 1
+            #InvertedList.write(token)
+            #InvertedList.write(" ")
+            Str_format = str(DictOfTokens[token])
+            
+            InvertedList.write(Str_format)
+            InvertedList.write('\n')
+            
+            DictOfIndex[token] = Wordscount
+            Wordscount += len(Str_format)
+            Wordscount += 1 # for '\n' taking one position
 
-    hash_table = json.loads(open("AllWords0.json").read())
-    try:
-        os.makedirs("Lib")
-    except:
-        pass
-    for token in hash_table:
-        with open("Lib/"+token + '.json', 'w+') as File:
-            json_obj = json.dumps(hash_table[token],indent=4)
-            File.write(json_obj)
+        json_obj = json.dumps(DictOfIndex)
+        Indexer.write(json_obj)
+
+    InvertedList.close()
 
     os.remove("AllWords0.json")
+
+    # hash_table = json.loads(open("AllWords0.json").read())
+    # try:
+    #     os.makedirs("Lib")
+    # except:
+    #     pass
+    # for token in hash_table:
+    #     with open("Lib/"+token + '.json', 'w+') as File:
+    #         json_obj = json.dumps(hash_table[token],indent=4)
+    #         File.write(json_obj)
+
+    # 
     
 
 
