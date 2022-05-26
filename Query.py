@@ -4,8 +4,7 @@ from queue import PriorityQueue
 import json
 import Index
 import time
-global Index_OfIndex 
-Index_Of_Index = {}
+
 
 
 def changeStringToDict(str):
@@ -35,8 +34,8 @@ def changeStringToDict(str):
 
 class QueryClass:
 
-    def __init__(self):
-        pass
+    def __init__(self, Index_of_index):
+        self.IOI = Index_of_index
 
     #Q means the string of the Query , ex: "apple banana"
     #k means the numbers of webs to return , ex: 3 webs to display
@@ -67,8 +66,18 @@ class QueryClass:
                             doc_to_score[eachDoc] += self.recur_getScore(eachPos,self.Dict_of_every_file,eachDoc,eachWord,List_Seperated_Words_in_Q[i+1:])
                         #print(f"        recursion {eachPos} : {time.time()-recurtime}")    
             
-            #print(doc_to_score)
-            return doc_to_score
+            i = 0
+
+            url_list = []
+
+            for each in sorted(doc_to_score.keys(), key = lambda x: -doc_to_score[x]):
+                if i < k:
+                    url_list.append(each)
+                else:
+                    break
+                i += 1
+
+            return url_list
 
 
     def build_doc_to_Pos(self,List_Seperated_Words_in_Q):
@@ -79,9 +88,9 @@ class QueryClass:
         for each in List_Seperated_Words_in_Q:
             #Temp = json.loads(open(f"Lib/{each}.json").read())
 
-            global Index_Of_Index
+    
             #LineNumber = Index_Of_Index[each].first
-            StartingByte = Index_Of_Index[each]
+            StartingByte = self.IOI[each]
 
             OpenInvertedList.seek(StartingByte) # the byte we start to read
             StringFormat = OpenInvertedList.readline()
@@ -195,48 +204,28 @@ class QueryClass:
 
 
 if __name__ == "__main__":
-    # a = myWindows()
-    # a.start()
-
-    c = QueryClass()
-
-    
 
     Index_Of_Index = json.loads(open("IndexOfIndex.json").read())
 
-    start = time.time()
+    c = QueryClass(Index_Of_Index)
 
-    dict = c.DocumentRetrival("machine learning",5)
+    query = input("Input your query here: ")
+    number_of_results = int(input("Input the number of results you want to have: "))
+    start = time.time()
+    url_list = c.DocumentRetrival(query, number_of_results)
 
     f = open("url_index.json","r") 
     lst = json.load(f)
 
-    i = 0
-    for each in sorted(dict.keys(), key= lambda x: -dict[x]):
-        if i > 4:
-            break
+   
+    for each in url_list:
+        
         print("================================")
-        print(f"    each doc:       {each}")
         print(f"    url:            {lst[each]}")
-        print(f"    score of doc:   {dict[each]}")
         print()
-        i += 1
+    
 
     print()
     print("this much of time has been used:", time.time()-start)
 
-    # =======================================================================
-    # queryList = ["cristina lopes","machine learning","ACM","master of software engineering"]
-
-    # print()
-    # for i in dict:
-    #     print("Query For:",i)
-    #     lst = DocumentRetrival(i, 5)
-    #     with open('url_index.json', 'r') as FA:
-    #         LstA = json.load(FA)
-    #         for i in lst:
-    #             print(LstA[i])
-        
-    #     print()
-    #     print("================================================")
         

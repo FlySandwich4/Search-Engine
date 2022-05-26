@@ -102,8 +102,14 @@ class myWindows:
             
             if self.ListBox_howManyWebs.get() == "":
                 raise EmptyWebsToSearchException
-
-            DocList = Query.DocumentRetrival(self.Entry_Query.get(),int(self.ListBox_howManyWebs.get()))
+            Index_Of_Index = json.loads(open("IndexOfIndex.json").read())
+            
+            query_obj = Query.QueryClass(Index_Of_Index)
+            print("check")
+            print(self.Entry_Query.get())
+            print(self.ListBox_howManyWebs.get())
+            DocList = query_obj.DocumentRetrival(self.Entry_Query.get(),int(self.ListBox_howManyWebs.get()))
+            print("DOCT", type(DocList))
             with open('url_index.json', 'r') as FA:
                 LstA = json.load(FA)
                 for i in DocList:
