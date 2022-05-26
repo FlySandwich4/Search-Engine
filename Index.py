@@ -71,7 +71,13 @@ class buildIndex:
         global this_time
         global total_doc
         Hash_Table = {}        
-        for eachFile in DocList:            
+        for eachFile in DocList:
+            self.p_last_index = 0
+            self.h3_last_index = 100000000
+            self.h2_last_index = 200000000
+            self.h1_last_index = 300000000
+            self.title_last_index = 400000000
+            self.head_last_index = 500000000            
             data = json.loads(open(eachFile).read())
             url = data['url']
             parsed = urlparse(url)
@@ -141,7 +147,7 @@ class buildIndex:
             TotalOccurOfThisToken = len(tokenPostings)
             for eachPosting in tokenPostings:
                 eachPosting.tfidf = countTFIDF(eachPosting.Tokenfre, eachPosting.WordsInDocid, total_doc, TotalOccurOfThisToken)
-
+            
         return Hash_Table
 
             

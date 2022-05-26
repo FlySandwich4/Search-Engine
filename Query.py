@@ -206,7 +206,7 @@ if __name__ == "__main__":
 
     start = time.time()
 
-    dict = c.DocumentRetrival("university of the",5)
+    dict = c.DocumentRetrival("machine learning",5)
 
     f = open("url_index.json","r") 
     lst = json.load(f)
