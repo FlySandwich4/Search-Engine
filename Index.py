@@ -264,7 +264,7 @@ def countQueryTFIDF(CountOfT, NumOfWords, Documents, TotalOccur):
 
 if __name__ =="__main__":
     BI = buildIndex()
-    BI.BuildIndex(findAllUrl('ANALYST/'))
+    BI.BuildIndex(findAllUrl('DEV/'))
     with open('url_index.json', 'w+') as F1:
         json_obj = json.dumps(F_lst)
         F1.write(json_obj)
